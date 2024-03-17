@@ -26,7 +26,9 @@ class Encoder:
                 out_dim += d
 
         self.embed_fns = embed_fns
-        self.out_dim = out_dim
+        self.out_dim = out_dim      # 2 + 10 * 2 * 2 
+                                    # 对于一个输入的标量，1. include_input 本身1个
+                                    # 10个频率，sin/cos  10 * 2
 
     def embed(self, inputs):
         return torch.cat([fn(inputs) for fn in self.embed_fns], -1)

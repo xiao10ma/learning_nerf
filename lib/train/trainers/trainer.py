@@ -7,7 +7,7 @@ from torch.nn.parallel import DistributedDataParallel
 from lib.config import cfg
 from lib.utils.data_utils import to_cuda
 
-
+# network的部署，送到device（cuda）
 class Trainer(object):
     def __init__(self, network):
         device = torch.device('cuda:{}'.format(cfg.local_rank))

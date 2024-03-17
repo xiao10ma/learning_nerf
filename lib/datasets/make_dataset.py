@@ -74,7 +74,7 @@ def make_batch_data_sampler(cfg, sampler, batch_size, drop_last, max_iter,
 
 
 def worker_init_fn(worker_id):
-    np.random.seed(worker_id + (int(round(time.time() * 1000) % (2**16))))
+    np.random.seed(worker_id + (int(round(time.time() * 1000) % (2**16))))  # 不同的workid，其seed不一样
 
 
 def make_data_loader(cfg, is_train=True, is_distributed=False, max_iter=-1):
@@ -99,6 +99,6 @@ def make_data_loader(cfg, is_train=True, is_distributed=False, max_iter=-1):
                             num_workers=num_workers,
                             collate_fn=collator,
                             worker_init_fn=worker_init_fn,
-                            pin_memory=True)
+                            pin_memory=True)    # 设置pin_memory=True，则意味着生成的Tensor数据最开始是属于内存中的锁页内存，这样将内存的Tensor转义到GPU的显存就会更快一些。
 
     return data_loader

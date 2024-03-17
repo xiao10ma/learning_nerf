@@ -3,6 +3,7 @@ import torch.nn as nn
 from lib.utils import net_utils
 from lib.config import cfg
 
+# 优化器，mse+psnr
 class NetworkWrapper(nn.Module):
     def __init__(self, net, train_loader):
         super(NetworkWrapper, self).__init__()

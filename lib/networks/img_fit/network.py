@@ -9,7 +9,7 @@ class Network(nn.Module):
     def __init__(self,):
         super(Network, self).__init__()
         net_cfg = cfg.network
-        self.uv_encoder, input_ch = get_encoder(net_cfg.uv_encoder)
+        self.uv_encoder, input_ch = get_encoder(net_cfg.uv_encoder)     # uv_encoder 2 -> 42  input_ch = 42
         D, W  = net_cfg.D, net_cfg.W
         self.backbone_layer = nn.ModuleList(
             [nn.Linear(input_ch, W)] + [nn.Linear(W, W) for i in range(D-1)])

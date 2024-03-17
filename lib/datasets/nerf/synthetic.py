@@ -17,7 +17,7 @@ class Dataset(data.Dataset):
         self.input_ratio = kwargs['input_ratio']
         self.data_root = os.path.join(data_root, scene)
         self.split = split
-        self.batch_size = cfg.task_arg.N_pixels         # 8192
+        self.batch_size = cfg.task_arg.N_pixels
 
         # read image
         image_paths = []
@@ -26,7 +26,7 @@ class Dataset(data.Dataset):
             image_paths.append(os.path.join(self.data_root, frame['file_path'][2:] + '.png'))
 
         img = imageio.imread(image_paths[view])/255.
-        img = img[..., :3] * img[..., -1:] + (1 - img[..., -1:])    # alpha混合，背景为白色
+        img = img[..., :3] * img[..., -1:] + (1 - img[..., -1:])
         if self.input_ratio != 1.:
             img = cv2.resize(img, None, fx=self.input_ratio, fy=self.input_ratio, interpolation=cv2.INTER_AREA)
         # set image
@@ -35,7 +35,7 @@ class Dataset(data.Dataset):
         H, W = img.shape[:2]
         X, Y = np.meshgrid(np.arange(W), np.arange(H))
         u, v = X.astype(np.float32) / (W-1), Y.astype(np.float32) / (H-1)
-        self.uv = np.stack([u, v], -1).reshape(-1, 2).astype(np.float32)    # [800 * 800, 2]
+        self.uv = np.stack([u, v], -1).reshape(-1, 2).astype(np.float32)
 
     def __getitem__(self, index):
         if self.split == 'train':
