@@ -159,8 +159,8 @@ def make_cfg(args):
             current_cfg = yacs.load_cfg(f)
         if 'parent_cfg' in current_cfg.keys():
             cfg = merge_cfg(current_cfg.parent_cfg, cfg)
-            cfg.merge_from_other_cfg(current_cfg)
-        else:
+            cfg.merge_from_other_cfg(current_cfg)           # 比较cfg 和 current_cfg，存在相同的键，用current_cfg替换cfg；current_cfg有cfg没有的键，则新增到 cfg 中
+        else:   
             cfg.merge_from_other_cfg(current_cfg)
         print(cfg_file)
         return cfg

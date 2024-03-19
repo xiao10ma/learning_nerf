@@ -298,7 +298,7 @@ def load_model(net,
     if not resume:
         os.system('rm -rf {}'.format(model_dir))
 
-    if not os.path.exists(model_dir):
+    if not os.path.exists(model_dir):   # model_dir 没有任何文件，即model尚未被训练保存
         return 0
 
     pths = [
@@ -307,7 +307,7 @@ def load_model(net,
     ]
     if len(pths) == 0 and 'latest.pth' not in os.listdir(model_dir):
         return 0
-    if epoch == -1:
+    if epoch == -1:         # -1 表示load
         if 'latest.pth' in os.listdir(model_dir):
             pth = 'latest'
         else:

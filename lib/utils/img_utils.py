@@ -59,7 +59,7 @@ def transparent_cmap(cmap):
     mycmap._lut[:,-1] = 0.3
     return mycmap
 
-cmap = transparent_cmap(plt.get_cmap('jet'))
+cmap = transparent_cmap(plt.get_cmap('jet'))    # get_camp 返回一个 颜色映射对象，用来将连续或离散的数据映射到颜色上
 
 
 def set_grid(ax, h, w, interval=8):

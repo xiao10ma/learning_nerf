@@ -5,6 +5,8 @@ import numpy as np
 from lib.networks.encoding import get_encoder
 from lib.config import cfg
 
+# 属性： uv_encoder  mlp（linear + sigmoid)  
+# 方法： render  batchify  forward
 class Network(nn.Module):
     def __init__(self,):
         super(Network, self).__init__()

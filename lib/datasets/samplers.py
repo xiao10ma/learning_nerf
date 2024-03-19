@@ -61,8 +61,8 @@ class IterationBasedBatchSampler(BatchSampler):
 
     def __iter__(self):
         iteration = self.start_iter
-        while iteration <= self.num_iterations:
-            for batch in self.batch_sampler:
+        while iteration <= self.num_iterations:         # 大框架下  <= num_iterations
+            for batch in self.batch_sampler:            # batch_sampler 输出 每个 batch 的 index
                 iteration += 1
                 if iteration > self.num_iterations:
                     break

@@ -10,5 +10,5 @@ def _wrapper_factory(cfg, network, train_loader=None):
 
 
 def make_trainer(cfg, network, train_loader=None):
-    network = _wrapper_factory(cfg, network, train_loader)
+    network = _wrapper_factory(cfg, network, train_loader)  # 返回的network包含了nerf网络，以及criterion优化器
     return Trainer(network)
