@@ -7,7 +7,7 @@ from torch.nn.parallel import DistributedDataParallel
 from lib.config import cfg
 from lib.utils.data_utils import to_cuda
 
-# network的部署，送到device（cuda）
+# network(nerf+criterion)的部署，送到device（cuda）
 class Trainer(object):
     def __init__(self, network):
         device = torch.device('cuda:{}'.format(cfg.local_rank))
@@ -42,7 +42,7 @@ class Trainer(object):
         return batch
 
     def train(self, epoch, data_loader, optimizer, recorder):
-        max_iter = len(data_loader)
+        max_iter = len(data_loader)     # 500, epoch_iter
         self.network.train()
         end = time.time()
         for iteration, batch in enumerate(data_loader):
@@ -57,7 +57,7 @@ class Trainer(object):
             loss = loss.mean()
             optimizer.zero_grad()
             loss.backward()
-            torch.nn.utils.clip_grad_value_(self.network.parameters(), 40)
+            torch.nn.utils.clip_grad_value_(self.network.parameters(), 40)  # 梯度裁剪，[-40, 40]
             optimizer.step()
 
             if cfg.local_rank > 0:

@@ -20,8 +20,11 @@ class NetworkWrapper(nn.Module):
         scalar_stats.update({'color_mse': color_loss})
         loss += color_loss
 
+        # psnr一般只用与评估
+        # color_loss.detach()了，返回一个新的张量，但是脱离了计算图
+        # 所以color_loss本身还是会被反向传播更新的，但是其新生成的副本不会参与反向传播，从而psnr也不会参与到反向传播
         psnr = -10. * torch.log(color_loss.detach()) / \
-                torch.log(torch.Tensor([10.]).to(color_loss.device))
+                torch.log(torch.Tensor([10.]).to(color_loss.device))    # device = cuda0
         scalar_stats.update({'psnr': psnr})
 
         scalar_stats.update({'loss': loss})

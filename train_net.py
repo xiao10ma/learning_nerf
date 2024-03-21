@@ -17,6 +17,9 @@ if cfg.fix_random:
 
 
 def train(cfg, network):
+    # make_data_loader: dataset + sampler
+    # train_loader 和 val_loader 基本一致，只有shuffle/input_ratio不同，用的都是同一张照片
+    # 返回时，train_loader返回8192个像素，而val_loader返回800*800
     train_loader = make_data_loader(cfg,
                                     is_train=True,
                                     is_distributed=cfg.distributed,
@@ -24,6 +27,7 @@ def train(cfg, network):
     val_loader = make_data_loader(cfg, is_train=False)
     trainer = make_trainer(cfg, network, train_loader)
 
+    # adam optimizer
     optimizer = make_optimizer(cfg, network)
     scheduler = make_lr_scheduler(cfg, optimizer)
     recorder = make_recorder(cfg)
@@ -48,7 +52,7 @@ def train(cfg, network):
         train_loader.dataset.epoch = epoch
 
         trainer.train(epoch, train_loader, optimizer, recorder)
-        scheduler.step()
+        scheduler.step()            # 更新lr
 
         if (epoch + 1) % cfg.save_ep == 0 and cfg.local_rank == 0:
             save_model(network, optimizer, scheduler, recorder,

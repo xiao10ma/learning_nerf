@@ -77,6 +77,11 @@ def worker_init_fn(worker_id):
     np.random.seed(worker_id + (int(round(time.time() * 1000) % (2**16))))  # 不同的workid，其seed不一样，从而取样是不一样的
 
 
+# dataset + sampler ==> dataloader
+# dataset  数据集，根据给的index输出相印的数据
+# sampler  采样器，输出 indices 
+# batch_sampler 建立在sampler之上，把sampler的输出集合成一个batch_size的大小
+# 总的来说，dataloader就是根据sampler输出的indices传给dataset，选出相应的数据
 def make_data_loader(cfg, is_train=True, is_distributed=False, max_iter=-1):
     if is_train:
         batch_size = cfg.train.batch_size

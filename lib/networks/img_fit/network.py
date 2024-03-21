@@ -21,13 +21,13 @@ class Network(nn.Module):
                 )
 
     def render(self, uv, batch):
-        uv_encoding = self.uv_encoder(uv)
+        uv_encoding = self.uv_encoder(uv)   # [8192, 42]
         x = uv_encoding
         for i, l in enumerate(self.backbone_layer):
             x = self.backbone_layer[i](x)
             x = F.relu(x)
         rgb = self.output_layer(x)
-        return {'rgb': rgb}
+        return {'rgb': rgb}         # [8192, 3]
 
     def batchify(self, uv, batch):
         all_ret = {}

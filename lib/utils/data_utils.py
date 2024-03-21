@@ -532,7 +532,8 @@ def load_ply(path):
     model = np.stack([x, y, z], axis=-1)
     return model
 
-def to_cuda(batch, device=torch.device('cuda:0')):
+# 把除了meta以外的数据，送到cuda
+def to_cuda(batch, device=torch.device('cuda:0')):          
     if isinstance(batch, tuple) or isinstance(batch, list):
         #batch[k] = [b.cuda() for b in batch[k]]
         #batch[k] = [b.to(self.device) for b in batch[k]]

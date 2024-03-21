@@ -7,7 +7,8 @@ def run_dataset():
     import tqdm
 
     cfg.train.num_workers = 0
-    data_loader = make_data_loader(cfg, is_train=False)
+    # data_loader = make_data_loader(cfg, is_train=False)
+    data_loader = make_data_loader(cfg)
     for batch in tqdm.tqdm(data_loader):
         pass
 
