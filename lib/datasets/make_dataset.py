@@ -104,6 +104,7 @@ def make_data_loader(cfg, is_train=True, is_distributed=False, max_iter=-1):
                             num_workers=num_workers,
                             collate_fn=collator,    # 设置如何取样本，这里设置默认
                             worker_init_fn=worker_init_fn,  
-                            pin_memory=True)    # 设置pin_memory=True，则意味着生成的Tensor数据最开始是属于内存中的锁页内存，这样将内存的Tensor转义到GPU的显存就会更快一些。
+                            pin_memory=True,     # 设置pin_memory=True，则意味着生成的Tensor数据最开始是属于内存中的锁页内存，这样将内存的Tensor转义到GPU的显存就会更快一些。
+                            )
 
     return data_loader

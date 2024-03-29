@@ -22,6 +22,8 @@ network:
         W: 256 # width
         D: 8 # depth
         V_D: 1 # appearance depth
+        use_viewdirs: True  # view dependent
+        skips: [4]
     xyz_encoder:
         type: 'frequency' # positional encoding
         input_dim: 3

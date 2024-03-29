@@ -13,7 +13,7 @@ def sample_rays_np(H, W, f, c2w):
     dirs = np.stack([(i-W*.5+.5)/f, -(j-H*.5+.5)/f, -np.ones_like(i)], -1)
     rays_d = np.sum(dirs[..., None, :] * c2w[:3,:3], -1)
     rays_o = np.broadcast_to(c2w[:3,-1], np.shape(rays_d))
-    return rays_o, rays_d
+    return rays_o.reshape(-1, 3), rays_d.reshape(-1, 3)       # [H * W, 3]
 
 # 1024 条ray <==> 1024个GT rgb
 # ray 通过 内参矩阵 + 外参矩阵求
@@ -69,8 +69,10 @@ class Dataset(data.Dataset):
             ids = np.random.choice(self.H * self.W, self.batch_size, replace=False)
             # gt rgb
             rgb = self.imgs[index].reshape(-1, 3)[ids]
-            # sample points  
+            # get rays origin, rays dir
             rays_o, rays_d = sample_rays_np(self.H, self.W, self.focal, np.linalg.inv(self.poses[index]))   
+            rays_o = rays_o[ids]
+            rays_d = rays_d[ids]
         else:
             rgb = self.imgs[index].reshape(-1, 3)
             rays_o, rays_d = sample_rays_np(self.H, self.W, self.focal, np.linalg.inv(self.poses[index]))   

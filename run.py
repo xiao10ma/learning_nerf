@@ -1,4 +1,6 @@
 from lib.config import cfg, args
+import torch
+import multiprocessing
 import numpy as np
 import os
 ### SCRIPTS BEGINING ###
@@ -25,7 +27,8 @@ def run_network():
     load_network(network, cfg.trained_model_dir, epoch=cfg.test.epoch)
     network.eval()
 
-    data_loader = make_data_loader(cfg, is_train=False)
+    data_loader = make_data_loader(cfg, is_train=True)
+    # data_loader = make_data_loader(cfg, is_train=False)
     total_time = 0
     for batch in tqdm.tqdm(data_loader):
         batch = to_cuda(batch)
@@ -105,4 +108,6 @@ def run_visualize():
         visualizer.summarize()
 
 if __name__ == '__main__':
+    # multiprocessing.set_start_method('spawn')
+    # torch.set_default_tensor_type('torch.cuda.FloatTensor')
     globals()['run_' + args.type]()
